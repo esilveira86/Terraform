@@ -3,7 +3,7 @@ provider "aws" {
   region = "us-east-1"
 }
 
-resource "aws_security_group" "web-server" {
+resource "aws_security_group" "web_server" {
     name = "web-server"
     description = "Libera o acesso a porta 80"
 
@@ -22,8 +22,8 @@ resource "aws_security_group" "web-server" {
 resource "aws_instance" "web" {
   ami           = data.aws_ami.amazon.id
   instance_type = "t2.micro"
-  key_name = "esilveira"
-  vpc_security_group_ids = ["${aws_security_group.web-server.id}"]
+  key_name = var.key_name
+  vpc_security_group_ids = ["${aws_security_group.web_server.id}"]
   user_data = <<EOT
         #!/bin/bash
         yum update -y
@@ -35,6 +35,6 @@ resource "aws_instance" "web" {
     EOT
 
   tags = {
-    Name = "web-server"
+    Name = var.name
   }
 }
