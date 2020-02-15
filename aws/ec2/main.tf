@@ -8,7 +8,7 @@ data "aws_ami" "amazon" {
 
   filter {
     name   = "name"
-    values = ["amzn2-ami-hvm-2.0.????????.?-x86_64-gp2"]
+    values = ["amzn2-ami-hvm-2.0.*.*-x86_64-gp2"]
   }
 
   filter {
@@ -53,4 +53,14 @@ resource "aws_instance" "web" {
   tags = {
     Name = "web-server"
   }
+}
+
+output "public_ip" {
+  description = "Lista de endereços IP públicos atribuídos a instância."
+  value       = aws_instance.web.public_ip
+}
+
+output "public_dns" {
+  description = "Lista de nomes DNS públicos atribuídos à instaância."
+  value       = aws_instance.web.public_dns
 }
