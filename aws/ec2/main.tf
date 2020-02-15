@@ -3,22 +3,6 @@ provider "aws" {
   region = "us-east-1"
 }
 
-data "aws_ami" "amazon" {
-  most_recent = true
-
-  filter {
-    name   = "name"
-    values = ["amzn2-ami-hvm-2.0.*.*-x86_64-gp2"]
-  }
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-
-  owners = ["amazon"]
-}
-
 resource "aws_security_group" "web-server" {
     name = "web-server"
     description = "Libera o acesso a porta 80"
@@ -53,14 +37,4 @@ resource "aws_instance" "web" {
   tags = {
     Name = "web-server"
   }
-}
-
-output "public_ip" {
-  description = "Lista de endereços IP públicos atribuídos a instância."
-  value       = aws_instance.web.public_ip
-}
-
-output "public_dns" {
-  description = "Lista de nomes DNS públicos atribuídos à instaância."
-  value       = aws_instance.web.public_dns
 }
